@@ -78,6 +78,7 @@ def simulated_annealing(
     current_value = func(current_solution)
     best_solution, best_value = current_solution, current_value
     iter_count = 0
+    worse_count = 0
     step_size_max = max([abs(bounds[i][0] - bounds[i][1]) for i in range(dimension)])
 
     for iter_num in range(iterations):
@@ -116,7 +117,7 @@ def simulated_annealing(
             (current_value - neighbor_value) / temp
         ):
             if neighbor_value >= current_value:
-                print("Збереження гіршого розв'язку на кроці", iter_num)
+                worse_count += 1
             current_solution, current_value = neighbor, neighbor_value
 
         if current_value < best_value:
@@ -129,6 +130,7 @@ def simulated_annealing(
         #     break
 
     print("Кількість ітерацій:", iter_count)
+    print("Кількість гірших рішень:", worse_count)
     return best_solution, best_value
 
 
