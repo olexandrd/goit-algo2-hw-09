@@ -109,9 +109,14 @@ def simulated_annealing(
         #     round(best_value, 2),
         # )
 
+        if abs(neighbor_value - best_value) < epsilon:
+            break
+
         if neighbor_value < current_value or random.random() < math.exp(
             (current_value - neighbor_value) / temp
         ):
+            if neighbor_value >= current_value:
+                print("Збереження гіршого розв'язку на кроці", iter_num)
             current_solution, current_value = neighbor, neighbor_value
 
         if current_value < best_value:
@@ -120,8 +125,9 @@ def simulated_annealing(
         temp *= cooling_rate
 
         # Causes unaccurate results because of low fixed itteration count
-        if temp < epsilon:
-            break
+        # if temp < epsilon:
+        #     break
+
     print("Кількість ітерацій:", iter_count)
     return best_solution, best_value
 
